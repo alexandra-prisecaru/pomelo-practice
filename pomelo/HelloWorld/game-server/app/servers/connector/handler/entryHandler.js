@@ -18,13 +18,18 @@ Handler.prototype.entry = function(msg, session, next) {
   console.log("received session stuff: ", session);
   console.log("received msg stuff: ", msg);
   const no = parseInt(msg.number);
-  var sum = 0;
-  // if (!isNaN(no)) {
-    for (var i = 1; i <= no; i++)
-      sum += i;
-  // }
-  const resultMessage = (sum === 0 ?
-    'Enter a valid number.' : 'Computed sum is: [ '+ sum +  ' ].');
+  const check = isNaN(no) ? 0 : 1;
+  if (check) {
+    var binaryRep = (no >>> 0).toString(2);
+    var binaryNo = binaryRep.split('1');
+    var max = 0;
+    for (var i = 0; i < binaryNo.length; i++)
+      if (max < binaryNo[i].length)
+        max = binaryNo[i].length
+  }
+  const resultMessage = (check === 0 ?
+    'Enter a valid number.' : 'Size of biggest seq of zeros: [ ' + max +  ' ].\
+  \nBinary rep is: ' + binaryRep + ".");
   next(null, {code: 200, msg: resultMessage});
 };
 
